@@ -1,0 +1,79 @@
+package testbydoga;
+
+import algorithms.Person;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
+import java.util.stream.Stream;
+
+public class ScratchByDoga {
+
+    LongStream ls= LongStream.range(1,10);
+
+    List<String> names = Arrays.asList("Veli","Ali","Ali","Selami","Cem","Zeynel","Can","Samet");
+    Predicate nameFilter=name -> name.toString().length() <4;
+    Stream namesStream=names.stream().filter(nameFilter);
+
+    List<String> myList=new ArrayList<>();
+
+
+    public static List<Person> createPeople(){
+        return Arrays.asList(
+                new Person(34,"Istanbul 34332"),
+                new Person(21,"Amsterdam 2123"),
+                new Person(33,"Paris 112")
+        );
+    }
+
+
+
+    @Test
+    public void writeResult(){
+        ls.forEach(System.out::print); //1...100
+
+        names.stream()
+                .filter(name -> name.toString().length() <4)
+                .forEach(System.out::println);
+
+        namesStream
+                .distinct()
+                .sorted()
+                .map(name -> name.toString().toUpperCase())
+                .forEach(name->{
+            System.out.print(name+"-");
+            myList.add(name.toString());
+        });
+        System.out.println(myList);
+    }
+
+    @Test
+    public void writeNamesWithUpperComma(){
+
+        System.out.println(names.stream()
+      .map(String::toUpperCase)
+                .collect(Collectors.joining(", xoxo")));
+
+    }
+
+    public static void printSorted(List<Person> people, Comparator<Person> comparator){
+        people.stream()
+                .sorted(comparator)
+                .forEach(System.out::println);
+
+    }
+
+    @Test
+    public void printSortedPeopleObject(){
+        List<Person> people=createPeople();
+        printSorted(people,Comparator.comparing(Person::getId).thenComparing(Person::getAddress));
+
+    }
+
+
+}
